@@ -1,0 +1,110 @@
+<view class="index-page page-enter" style="padding-top:{{navHeight}}px;">
+    <view class="page-bg-fixed"></view>
+    <custom-nav title="🏆 2026世界杯" transparent="{{true}}"></custom-nav>
+    <view class="page-body">
+        <view class="host-info">
+            <block wx:for="{{hostFlags}}" wx:key="code">
+                <image class="host-info-flag" mode="aspectFit" src="{{item.url}}" wx:if="{{item.url}}"></image>
+                <text>{{item.name}}</text>
+                <text class="host-info-dot" wx:if="{{index<hostFlags.length-1}}"> · </text>
+            </block>
+            <text class="host-info-date"> | 6.11 – 7.19</text>
+        </view>
+        <view class="match-stats-card">
+            <view class="stats-grid">
+                <view class="stats-item">
+                    <text class="stats-number">{{totalMatchesCount}}</text>
+                    <text class="stats-label">总场次</text>
+                </view>
+                <view class="stats-item">
+                    <text class="stats-number">{{playedMatchesCount}}</text>
+                    <text class="stats-label">已进行</text>
+                </view>
+                <view class="stats-item">
+                    <text class="stats-number">{{remainingMatchesCount}}</text>
+                    <text class="stats-label">剩余</text>
+                </view>
+            </view>
+        </view>
+        <view class="search-bar">
+            <navigator class="search-box" hoverClass="none" url="/pages/search/search">
+                <image class="search-icon-svg" mode="aspectFit" src="/images/icons/search-gray.svg"></image>
+                <text class="search-placeholder">搜索球队</text>
+            </navigator>
+        </view>
+        <view class="countdown-card">
+            <countdown featureFlags="{{featureFlags}}" finalMatch="{{finalMatch}}" match="{{openingMatch}}" playedMatchesCount="{{playedMatchesCount}}"></countdown>
+        </view>
+        <view class="section-header" wx:if="{{todayMatches.length>0}}">
+            <text class="section-title">近日赛程</text>
+            <navigator class="section-action" hoverClass="none" url="/pages/recent-matches/recent-matches">
+                <text>全部</text>
+                <image class="section-arrow" mode="aspectFit" src="/images/icons/chevron-right-white.svg"></image>
+            </navigator>
+        </view>
+        <view class="match-card-wrap" wx:if="{{todayMatches.length>0}}">
+            <swiper autoplay="{{true}}" circular="{{true}}" class="match-swiper" indicatorDots="{{false}}" interval="4000">
+                <swiper-item wx:for="{{todayMatches}}" wx:key="id">
+                    <view class="swiper-slide-inner">
+                        <match-card match="{{item}}" predictCount="{{item._predictCount||0}}" showPredictHint="{{true}}"></match-card>
+                    </view>
+                </swiper-item>
+            </swiper>
+        </view>
+        <view class="recent-schedule-section" wx:if="{{recentSchedule.length>0}}">
+            <view class="recent-schedule-header">
+                <text class="recent-schedule-title">📅 近日赛程</text>
+            </view>
+            <view class="recent-schedule-list">
+                <view class="recent-schedule-item" wx:for="{{recentSchedule}}" wx:key="id">
+                    <view class="recent-schedule-teams">
+                        <image class="recent-schedule-flag" mode="aspectFit" src="{{item.homeFlagUrl}}" wx:if="{{item.homeFlagUrl}}"></image>
+                        <text class="recent-schedule-home">{{item.homeName}}</text>
+                        <text class="recent-schedule-vs">VS</text>
+                        <image class="recent-schedule-flag" mode="aspectFit" src="{{item.awayFlagUrl}}" wx:if="{{item.awayFlagUrl}}"></image>
+                        <text class="recent-schedule-away">{{item.awayName}}</text>
+                    </view>
+                    <text class="recent-schedule-time">{{item.time}}</text>
+                </view>
+            </view>
+        </view>
+        <view class="guess-trigger-wrap">
+            <view bindtap="onGuessTap" class="guess-trigger {{selectedGuessTeamName?'has-selected':''}} {{selectedGuessTeamName&&userTeamElimination!=='alive'&&userTeamElimination!=='champion'?'is-eliminated':''}}">
+                <view class="guess-trigger-icon">
+                    <text class="guess-trigger-emoji">{{selectedGuessTeamName?'🏆':'🎲'}}</text>
+                </view>
+                <view class="guess-trigger-content">
+                    <view class="guess-trigger-title">
+                        <image class="guess-trigger-flag" mode="aspectFit" src="{{selectedGuessFlagUrl}}" wx:if="{{selectedGuessTeamName&&selectedGuessFlagUrl}}"></image>
+                        <text class="guess-trigger-title-text">{{selectedGuessTeamName?selectedGuessTeamName:'让命运为你选冠军'}}</text>
+                    </view>
+                </view>
+                <view class="guess-trigger-elim" wx:if="{{selectedGuessTeamName&&userTeamElimination!=='alive'&&userTeamElimination!=='champion'}}">{{userTeamLabel}} · 重新选择</view>
+                <view class="guess-source-tag {{selectedGuessSource==='pick'?'src-pick':'src-rand'}}" wx:if="{{selectedGuessTeamName&&selectedGuessSource&&!(userTeamElimination!=='alive'&&userTeamElimination!=='champion')}}">{{selectedGuessSource==='pick'?'✋ 亲选':'🎲 命运'}}</view>
+                <view class="guess-trigger-arrow">→</view>
+            </view>
+        </view>
+        <view class="ad-container" wx:if="{{adVisible}}">
+            <ad-custom bindclose="onAdClose" binderror="onAdError" bindload="onAdLoad" unitId="adunit-98d3b8da26606f68"></ad-custom>
+        </view>
+        <navigator class="champion-heatmap {{championTotalCount>3?'is-clickable':''}}" hoverClass="none" url="{{championTotalCount>3?'/pages/heatmap/heatmap':''}}" wx:if="{{predictEnabled&&championHeatmap.length}}">
+            <view class="heatmap-header">
+                <text class="heatmap-title">冠军热度</text>
+                <text class="heatmap-user-hint" wx:if="{{selectedGuessTeamName&&!userTeamInHeatmapTop3}}">我的选择：{{selectedGuessTeamName}}</text>
+            </view>
+            <image class="heatmap-chevron" mode="aspectFit" src="/images/icons/chevron-right-gray.svg" wx:if="{{championTotalCount>3}}"></image>
+            <view class="heatmap-list">
+                <view class="heatmap-row rank-{{index+1}} {{item.teamCode===selectedTeamCode?'is-selected':''}} {{item.isOther?'is-other':''}}" wx:for="{{championHeatmap}}" wx:key="teamCode">
+                    <view class="heatmap-team">
+                        <image class="heatmap-flag" mode="aspectFit" src="{{item.flagUrl}}" wx:if="{{item.flagUrl}}"></image>
+                        <text class="heatmap-name">{{item.teamName}}</text>
+                    </view>
+                    <view class="heatmap-bar-wrap">
+                        <view class="heatmap-bar" style="width:{{item.barWidth+'%'}};"></view>
+                    </view>
+                    <text class="heatmap-pct">{{item.percentage}}%</text>
+                </view>
+            </view>
+        </navigator>
+    </view>
+</view>

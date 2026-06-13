@@ -1,0 +1,1 @@
+var e=require("./mock/tournament"),r=require("./mock/teams"),t=require("./mock/groups"),s=require("./mock/matches"),u=require("./mock/venues"),n=require("./mock/standings");module.exports={getData:function(){return JSON.parse(JSON.stringify({tournament:e,teams:r,groups:t,matches:s,venues:u,standings:n}))}};

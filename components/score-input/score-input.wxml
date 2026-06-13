@@ -1,0 +1,19 @@
+<view class="score-input-container">
+  <view class="score-side">
+    <text class="team-name">{{homeName}}</text>
+    <view class="score-controls">
+      <view class="score-btn {{homeScore <= 0 ? 'disabled' : ''}}" bindtap="onHomeMinus">-</view>
+      <text class="score-value">{{homeScore}}</text>
+      <view class="score-btn {{homeScore >= 9 ? 'disabled' : ''}}" bindtap="onHomePlus">+</view>
+    </view>
+  </view>
+  <view class="score-vs">VS</view>
+  <view class="score-side">
+    <text class="team-name">{{awayName}}</text>
+    <view class="score-controls">
+      <view class="score-btn {{awayScore <= 0 ? 'disabled' : ''}}" bindtap="onAwayMinus">-</view>
+      <text class="score-value">{{awayScore}}</text>
+      <view class="score-btn {{awayScore >= 9 ? 'disabled' : ''}}" bindtap="onAwayPlus">+</view>
+    </view>
+  </view>
+</view>

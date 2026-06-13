@@ -1,0 +1,25 @@
+<view class="recent-page" style="padding-top:{{navHeight}}px;">
+    <view class="page-bg-fixed"></view>
+    <custom-nav showBack="{{true}}" title="近日赛程" transparent="{{true}}"></custom-nav>
+    <view class="content" wx:if="{{hasMatches}}">
+        <block wx:for="{{groupedMatches}}" wx:for-item="group" wx:key="dateLabel">
+            <view class="date-group">
+                <view class="match-list">
+                    <view class="match-item" wx:for="{{group.matches}}" wx:key="id">
+                        <match-card match="{{item}}" mode="compact" predictCount="{{item._predictCount||0}}" showPredictHint="{{true}}"></match-card>
+                    </view>
+                </view>
+            </view>
+            <view class="ad-container" wx:if="{{adVisible&&groupedMatches.length>1&&index===0}}">
+                <ad-custom bindclose="onAdClose" binderror="onAdError" bindload="onAdLoad" unitId="adunit-1d1e145ee87fc6cd"></ad-custom>
+            </view>
+        </block>
+        <view class="ad-container" wx:if="{{adVisible&&groupedMatches.length===1}}">
+            <ad-custom bindclose="onAdClose" binderror="onAdError" bindload="onAdLoad" unitId="adunit-1d1e145ee87fc6cd"></ad-custom>
+        </view>
+    </view>
+    <view class="empty-state" wx:else>
+        <image class="empty-icon" mode="aspectFit" src="/images/icons/calendar-gray.svg"></image>
+        <text>暂无近日赛程</text>
+    </view>
+</view>

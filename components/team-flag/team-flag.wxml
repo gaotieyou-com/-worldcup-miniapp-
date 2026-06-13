@@ -1,0 +1,5 @@
+<view class="team-flag {{size}} {{layout}}" wx:if="{{team || teamCode}}">
+  <image class="flag-image" src="{{flagUrl}}" mode="aspectFit" wx:if="{{flagUrl && useImageFlag}}"></image>
+  <text class="flag-emoji" wx:else>{{flagEmoji}}</text>
+  <text class="team-name" wx:if="{{showName}}">{{teamName}}</text>
+</view>

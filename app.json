@@ -1,0 +1,54 @@
+{
+  "componentFramework":"exparser",
+  "tabBar": {
+    "custom": true,
+    "color": "#9ca3af",
+    "selectedColor": "#1B5E20",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/schedule/schedule",
+        "text": "赛程"
+      },
+      {
+        "pagePath": "pages/standings/standings",
+        "text": "积分榜"
+      },
+      {
+        "pagePath": "pages/more/more",
+        "text": "我的"
+      }
+    ]
+  },
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#0D3B2E",
+    "navigationBarTitleText": "2026 世界杯",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#0D3B2E",
+    "backgroundColorTop": "#0D3B2E",
+    "backgroundColorBottom": "#CCE2D4"
+  },
+  "pages": [
+    "pages/index/index",
+    "pages/schedule/schedule",
+    "pages/standings/standings",
+    "pages/more/more",
+    "pages/match/detail",
+    "pages/team/detail",
+    "pages/bracket/bracket",
+    "pages/search/search",
+    "pages/recent-matches/recent-matches",
+    "pages/globe/globe",
+    "pages/share-card/share-card",
+    "pages/heatmap/heatmap",
+    "pages/pick-champion/pick-champion",
+    "pages/predict-dist/predict-dist",
+    "pages/predict-list/predict-list"
+  ]
+}

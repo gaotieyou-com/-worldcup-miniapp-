@@ -1,0 +1,17 @@
+<view class="custom-nav {{transparent?'transparent':''}}" style="height:{{navHeight}}px;">
+  <view class="nav-status-bar" style="height:{{statusBarHeight}}px;"></view>
+  <view class="nav-content">
+    <view class="nav-left" bindtap="onLeftTap" wx:if="{{showBack || leftIcon}}">
+      <image class="nav-left-icon" src="/images/icons/{{leftIcon||'chevron-left-white'}}.svg" mode="aspectFit" wx:if="{{leftIcon || showBack}}"></image>
+    </view>
+    <view class="nav-title-area">
+      <text class="nav-title">{{title}}</text>
+    </view>
+    <view class="nav-right">
+      <view class="nav-favorite" bindtap="onFavoriteTap" wx:if="{{showFavorite}}">
+        <image class="nav-fav-icon" src="/images/icons/star-{{isFavorite?'amber':'white'}}.svg" mode="aspectFit"></image>
+      </view>
+    </view>
+  </view>
+</view>
+<view class="nav-placeholder" style="height:{{navHeight}}px;" wx:if="{{!transparent}}"></view>

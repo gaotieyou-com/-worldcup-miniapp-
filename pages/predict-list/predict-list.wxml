@@ -1,0 +1,65 @@
+<view class="predict-page" style="padding-top:{{navHeight}}px;">
+    <view class="page-bg-fixed"></view>
+    <custom-nav showBack="{{true}}" title="我的比分预测" transparent="{{true}}"></custom-nav>
+    <view class="predict-list-page">
+        <view class="page-state" wx:if="{{loading}}">
+            <text class="state-text">加载中...</text>
+        </view>
+        <view class="page-state" wx:elif="{{noOpenid}}">
+            <text class="state-text">登录后才能查看预测记录</text>
+            <view bindtap="onBack" class="state-btn">返回</view>
+        </view>
+        <view class="page-state" wx:elif="{{loadError}}">
+            <text class="state-text">加载失败，请下拉刷新</text>
+        </view>
+        <view class="empty-wrap" wx:elif="{{count===0}}">
+            <text class="empty-title">你还没预测任何比赛</text>
+            <text class="empty-sub">挑一场未开赛的比赛猜个比分吧</text>
+            <view bindtap="onGoSchedule" class="empty-cta">去赛程页找一场</view>
+        </view>
+        <block wx:else>
+            <view class="ad-container" wx:if="{{adVisible&&displayList.length>0}}">
+                <ad-custom bindclose="onAdClose" binderror="onAdError" bindhide="onAdHide" bindload="onAdLoad" unitId="adunit-1d1e145ee87fc6cd"></ad-custom>
+            </view>
+            <view class="list-wrap" wx:if="{{displayList.length>0}}">
+                <view bindtap="onCardTap" class="list-card {{item.locked?'is-locked':''}}" data-id="{{item.match_id}}" wx:for="{{displayList}}" wx:key="match_id">
+                    <view class="card-col-left">
+                        <text class="card-date" wx:if="{{item.dateLabel}}">{{item.dateLabel}}</text>
+                        <text class="card-time">{{item.timeLabel}}</text>
+                        <text class="card-stage" wx:if="{{item.stageLabel}}">{{item.stageLabel}}</text>
+                    </view>
+                    <view class="card-col-mid">
+                        <view class="team-block">
+                            <view catchtap="onTeamTap" class="team-tap" data-code="{{item.homeCode}}">
+                                <team-flag layout="vertical" showName="{{true}}" size="small" teamCode="{{item.homeCode}}" useImageFlag="{{true}}"></team-flag>
+                            </view>
+                        </view>
+                        <text class="team-vs">vs</text>
+                        <view class="team-block">
+                            <view catchtap="onTeamTap" class="team-tap" data-code="{{item.awayCode}}">
+                                <team-flag layout="vertical" showName="{{true}}" size="small" teamCode="{{item.awayCode}}" useImageFlag="{{true}}"></team-flag>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="card-col-right">
+                        <text class="mine-label">我的预测</text>
+                        <text class="mine-score">{{item.home_score}} - {{item.away_score}}</text>
+                        <view catchtap="onEditTap" class="card-edit-btn" data-id="{{item.match_id}}" wx:if="{{!item.locked}}">修改</view>
+                        <view class="card-locked-badge" wx:else>已锁定</view>
+                    </view>
+                </view>
+            </view>
+            <view class="empty-wrap empty-tab-wrap" wx:if="{{activeTab!=='all'&&displayList.length===0}}">
+                <text class="empty-title">你还没预测任何比赛</text>
+                <text class="empty-sub">挑一场未开赛的比赛猜个比分吧</text>
+                <view bindtap="onGoSchedule" class="empty-cta">去赛程页找一场吧</view>
+            </view>
+            <view class="list-bottom-spacer"></view>
+        </block>
+        <view catchtap="onCloseModal" class="modal-mask" wx:if="{{modalVisible}}">
+            <view catchtap="noop" class="modal-card">
+                <score-input awayName="{{modalAwayName}}" bind:cancel="onCloseModal" bind:submit="onModalSubmit" homeName="{{modalHomeName}}" initial="{{modalInitial}}" locked="{{false}}" matchDate="{{modalMatchDate}}" matchId="{{modalMatchId}}" matchTime="{{modalMatchTime}}" matchWeekday="{{modalMatchWeekday}}" mode="modal"></score-input>
+            </view>
+        </view>
+    </view>
+</view>

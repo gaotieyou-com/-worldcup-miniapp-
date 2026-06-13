@@ -1,0 +1,145 @@
+<view class="match-detail-page page-enter" style="padding-top:{{navHeight}}px;">
+    <view class="page-bg-fixed"></view>
+    <custom-nav bind:favorite="onFavoriteTap" isFavorite="{{isFavorite}}" showBack="{{true}}" showFavorite="{{true}}" title="{{navTitle}}" transparent="{{true}}"></custom-nav>
+    <view class="card matchup-faceoff">
+        <view class="teams-row">
+            <view class="team-side home">
+                <team-flag layout="vertical" showName="{{true}}" size="large" team="{{homeTeam}}" wx:if="{{homeTeam&&!homeIsTbd}}"></team-flag>
+                <view class="tbd-team" wx:if="{{homeIsTbd}}">
+                    <text class="tbd-flag">🏆</text>
+                    <view class="tbd-name" wx:if="{{homeTbdLines.length>1}}">
+                        <text class="tbd-line" wx:for="{{homeTbdLines}}" wx:key="index">{{item}}</text>
+                    </view>
+                    <text class="tbd-name" wx:elif="{{homeTbdDesc}}">{{homeTbdDesc}}</text>
+                    <text class="tbd-name" wx:else>待定</text>
+                </view>
+            </view>
+            <view class="score-center">
+                <text class="score {{isLive||isFinished?'has-score':''}}">{{scoreDisplay}}</text>
+                <view class="score-labels" wx:if="{{isFinished&&match.score}}">
+                    <view class="score-line" wx:if="{{match.score.ft}}">
+                        <text class="score-label">全场</text>
+                        <text class="score-value">{{match.score.ft[0]}} - {{match.score.ft[1]}}</text>
+                    </view>
+                    <view class="score-line" wx:if="{{match.score.ht&&match.score.ht[0]!==null}}">
+                        <text class="score-label">半场</text>
+                        <text class="score-value">{{match.score.ht[0]}} - {{match.score.ht[1]}}</text>
+                    </view>
+                </view>
+                <view class="status-tag-sm {{statusClass}}">
+                    <view class="live-dot" wx:if="{{statusClass==='live'}}"></view>
+                    <text>{{statusText}}</text>
+                </view>
+            </view>
+            <view class="team-side away">
+                <team-flag layout="vertical" showName="{{true}}" size="large" team="{{awayTeam}}" wx:if="{{awayTeam&&!awayIsTbd}}"></team-flag>
+                <view class="tbd-team" wx:if="{{awayIsTbd}}">
+                    <text class="tbd-flag">🏆</text>
+                    <view class="tbd-name" wx:if="{{awayTbdLines.length>1}}">
+                        <text class="tbd-line" wx:for="{{awayTbdLines}}" wx:key="index">{{item}}</text>
+                    </view>
+                    <text class="tbd-name" wx:elif="{{awayTbdDesc}}">{{awayTbdDesc}}</text>
+                    <text class="tbd-name" wx:else>待定</text>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="card matchup-info">
+        <view class="match-meta">
+            <view class="meta-row">
+                <view class="meta-left">
+                    <image class="meta-icon" mode="aspectFit" src="/images/icons/clock-blue.svg"></image>
+                    <text class="meta-label">北京时间</text>
+                </view>
+                <text class="meta-value">{{beijingDate}} {{beijingTimeOnly}}</text>
+            </view>
+            <view class="meta-row">
+                <view class="meta-left">
+                    <image class="meta-icon" mode="aspectFit" src="/images/icons/map-pin-red.svg"></image>
+                    <text class="meta-label">场馆</text>
+                </view>
+                <text class="meta-value">{{venueDisplay}}</text>
+            </view>
+            <view class="meta-row" wx:if="{{attendanceText}}">
+                <view class="meta-left">
+                    <image class="meta-icon" mode="aspectFit" src="/images/icons/users-green.svg"></image>
+                    <text class="meta-label">现场</text>
+                </view>
+                <text class="meta-value">{{attendanceText}}</text>
+            </view>
+            <view class="meta-row meta-action" wx:if="{{showCalendarBtn}}">
+                <view bindtap="onCalendarTap" class="calendar-btn {{calendarBtnClass}}">
+                    <image class="calendar-icon" mode="aspectFit" src="/images/icons/{{addedToCalendar?'calendar-green':isTbd?'calendar-gray':'calendar-white'}}.svg"></image>
+                    <text>{{addedToCalendar?'已添加到日历':isTbd?'对阵待定，暂不可预约':'赛前 15 分钟提醒我'}}</text>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view bindtap="onPredictDistTap" class="card predict-section {{(predictState==='submitted'||predictState==='locked')&&predictDistinctCount>3?'is-clickable':''}}" wx:if="{{predictEnabled&&!homeIsTbd&&!awayIsTbd}}">
+        <view class="predict-header">
+            <text class="predict-title">比分预测</text>
+            <view class="predict-mine-center" wx:if="{{predictState==='submitted'}}">
+                <text class="mine-score">我的预测：{{myHomeScore}}-{{myAwayScore}}</text>
+                <view catchtap="onEditPredict" class="predict-edit-btn {{submitting?'is-loading':''}}">修改</view>
+            </view>
+            <view class="predict-mine-center" wx:if="{{predictState==='locked'}}">
+                <text class="predict-locked-tag">预测已锁定</text>
+            </view>
+            <image class="predict-chevron" mode="aspectFit" src="/images/icons/chevron-right-gray.svg" wx:if="{{(predictState==='submitted'||predictState==='locked')&&predictDistinctCount>3}}"></image>
+        </view>
+        <block wx:if="{{predictState==='input'}}">
+            <view class="predict-picker">
+                <view class="picker-side">
+                    <text class="picker-team">{{homeTeam.nameCn||homeTeam.name||'主队'}}</text>
+                    <view class="picker-control">
+                        <view bindtap="onScoreChange" class="picker-btn {{myHomeScore===0?'is-disabled':''}}" data-delta="-1" data-side="home">−</view>
+                        <text class="picker-score">{{myHomeScore}}</text>
+                        <view bindtap="onScoreChange" class="picker-btn {{myHomeScore===9?'is-disabled':''}}" data-delta="1" data-side="home">+</view>
+                    </view>
+                </view>
+                <view class="picker-side">
+                    <text class="picker-team">{{awayTeam.nameCn||awayTeam.name||'客队'}}</text>
+                    <view class="picker-control">
+                        <view bindtap="onScoreChange" class="picker-btn {{myAwayScore===0?'is-disabled':''}}" data-delta="-1" data-side="away">−</view>
+                        <text class="picker-score">{{myAwayScore}}</text>
+                        <view bindtap="onScoreChange" class="picker-btn {{myAwayScore===9?'is-disabled':''}}" data-delta="1" data-side="away">+</view>
+                    </view>
+                </view>
+            </view>
+            <view catchtap="onSubmitPredict" class="predict-submit-btn {{submitting?'is-loading':''}}">
+                <text>{{submitting?'提交中...':'提交我的预测'}}</text>
+            </view>
+        </block>
+        <view class="predict-dist-wrap" wx:elif="{{predictState==='submitted'}}">
+            <include src="./_predict-dist.wxml"></include>
+            <text class="predict-empty-hint" wx:if="{{predictDistinctCount===1}}">你是第 1 个预测者，等小伙伴们～</text>
+            <text class="predict-empty-hint" wx:elif="{{predictDistinctCount===2}}">暂无更多预测</text>
+        </view>
+        <view class="predict-dist-wrap" wx:elif="{{predictState==='locked'}}">
+            <include src="./_predict-dist.wxml"></include>
+        </view>
+    </view>
+    <view class="ad-container" wx:if="{{adVisible}}">
+        <ad-custom bindclose="onAdClose" binderror="onAdError" bindload="onAdLoad" unitId="adunit-1d1e145ee87fc6cd"></ad-custom>
+    </view>
+    <view class="card mini-standings" wx:if="{{isGroupStage}}">
+        <view class="mini-table-header">
+            <view class="mini-col-rank">排名</view>
+            <view class="mini-col-team">球队</view>
+            <view class="mini-col-num">赛</view>
+            <view class="mini-col-merge mini-col-wdl">胜/平/负</view>
+            <view class="mini-col-merge mini-col-gfa">进/失/净</view>
+            <view class="mini-col-points">积分</view>
+        </view>
+        <view class="mini-table-row" wx:for="{{groupStandings}}" wx:key="teamCode">
+            <view class="mini-col-rank">{{index+1}}</view>
+            <view class="mini-col-team">
+                <team-flag showName="{{true}}" size="tiny" teamCode="{{item.teamCode}}"></team-flag>
+            </view>
+            <text class="mini-col-num">{{item.played}}</text>
+            <text class="mini-col-merge mini-col-wdl">{{item.won}}/{{item.drawn}}/{{item.lost}}</text>
+            <text class="mini-col-merge mini-col-gfa">{{item.goalsFor}}/{{item.goalsAgainst}}/{{item.goalDiffText}}</text>
+            <text class="mini-col-points">{{item.points}}</text>
+        </view>
+    </view>
+</view>

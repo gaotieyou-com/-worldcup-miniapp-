@@ -1,0 +1,33 @@
+<view class="schedule-page page-enter" style="padding-top:{{navHeight}}px;">
+    <view class="page-bg-fixed"></view>
+    <custom-nav leftIcon="calendar-white" title="赛程" transparent="{{true}}"></custom-nav>
+    <view class="date-picker">
+        <scroll-view scrollX class="date-scroll" enhanced="{{true}}" showScrollbar="{{false}}">
+            <view class="filter-scroll">
+                <pill-tab active="{{selectedDate===item.date}}" bindtap="onDateSelect" class="{{item.isWeekend?'is-weekend':''}}" data-date="{{item.date}}" variant="ghost" wx:for="{{dateList}}" wx:key="date">
+                    <text class="chip-day">{{item.day}}</text>
+                    <text class="chip-week {{item.isWeekend?'chip-week-weekend':''}} {{selectedDate===item.date?'chip-week-active':''}} {{selectedDate===item.date&&item.isWeekend?'chip-week-active-weekend':''}}">{{item.week}}</text>
+                    <view class="chip-today-dot {{selectedDate===item.date?'is-active':''}}" wx:if="{{item.isToday}}"></view>
+                </pill-tab>
+            </view>
+        </scroll-view>
+    </view>
+    <view class="ad-container" wx:if="{{adVisible}}">
+        <ad-custom bindclose="onAdClose" binderror="onAdError" bindload="onAdLoad" unitId="adunit-1d1e145ee87fc6cd"></ad-custom>
+    </view>
+    <view class="match-list">
+        <view class="match-list-card" wx:if="{{filteredMatches.length>0}}">
+            <match-card match="{{item}}" mode="compact" wx:for="{{filteredMatches}}" wx:key="id"></match-card>
+        </view>
+        <view class="empty-state" wx:if="{{filteredMatches.length===0}}">
+            <image class="empty-icon" mode="aspectFit" src="/images/icons/calendar-gray.svg"></image>
+            <text>该日期暂无比赛</text>
+        </view>
+    </view>
+    <navigator class="fab-bracket" hoverClass="none" url="/pages/bracket/bracket">
+        <view class="fab-circle">
+            <image class="fab-icon" mode="aspectFit" src="/images/icons/trophy-white.svg"></image>
+        </view>
+        <text class="fab-label">对阵</text>
+    </navigator>
+</view>

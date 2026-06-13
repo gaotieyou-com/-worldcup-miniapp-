@@ -1,0 +1,1 @@
+module.exports={checkVersion:function(){if(wx.canIUse&&wx.canIUse("getUpdateManager")){var e=wx.getUpdateManager();e.onCheckForUpdate((function(){})),e.onUpdateReady((function(){wx.showModal({title:"更新提示",content:"新版本已就绪，重启后体验更佳",confirmText:"立即重启",cancelText:"稍后",success:function(n){n.confirm&&e.applyUpdate()}})})),e.onUpdateFailed((function(){}))}}};

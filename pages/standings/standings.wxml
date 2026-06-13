@@ -1,0 +1,55 @@
+<view class="standings-page page-enter" style="padding-top:{{navHeight}}px;">
+    <view class="page-bg-fixed"></view>
+    <custom-nav leftIcon="chart-bar-white" title="积分榜" transparent="{{true}}"></custom-nav>
+    <view class="group-tabs">
+        <view class="tab-list">
+            <view bindtap="onGroupSelect" class="tab-item {{selectedGroup===item?'active':''}}" data-group="{{item}}" wx:for="{{groups}}" wx:key="*this">
+                <text class="tab-letter">{{item}}</text>
+            </view>
+        </view>
+    </view>
+    <view class="card standings-table">
+        <view class="table-header">
+            <view class="col-rank">排名</view>
+            <view class="col-team">球队</view>
+            <view class="col-num">赛</view>
+            <view class="col-merge col-wdl">胜/平/负</view>
+            <view class="col-merge col-gfa">进/失/净</view>
+            <view class="col-points">积分</view>
+        </view>
+        <navigator class="table-row {{index<2?'qualified':''}}" hoverClass="none" url="/pages/team/detail?code={{item.team}}" wx:for="{{currentStandings}}" wx:key="team">
+            <text class="col-rank">{{index+1}}</text>
+            <view class="col-team">
+                <team-flag showName="{{true}}" size="tiny" teamCode="{{item.team}}"></team-flag>
+            </view>
+            <text class="col-num">{{item.played}}</text>
+            <text class="col-merge col-wdl">{{item.won}}/{{item.drawn}}/{{item.lost}}</text>
+            <text class="col-merge col-gfa">{{item.goalsFor}}/{{item.goalsAgainst}}/{{item.goalDiffText}}</text>
+            <text class="col-points">{{item.points}}</text>
+        </navigator>
+    </view>
+    <view class="ad-container" wx:if="{{adVisible}}">
+        <ad-custom bindclose="onAdClose" binderror="onAdError" bindhide="onAdHide" bindload="onAdLoad" unitId="adunit-1d1e145ee87fc6cd"></ad-custom>
+    </view>
+    <view class="card rules-card">
+        <view class="rules-card-header">
+            <view class="rules-card-left">
+                <image class="rules-card-icon" mode="aspectFit" src="/images/icons/info-gray.svg"></image>
+                <text class="rules-card-title">排名与晋级规则</text>
+            </view>
+        </view>
+        <view class="rules-card-content">
+            <view class="rule-section">
+                <text class="rule-section-title">晋级名额</text>
+                <text class="rule-text">• 每组前2名 → 24队直接晋级32强</text>
+                <text class="rule-text">• 8个成绩最好的小组第3名 → 8队晋级</text>
+            </view>
+            <view class="rule-divider"></view>
+            <view class="rule-section">
+                <text class="rule-section-title">排名规则</text>
+                <text class="rule-text">• 积分 → 净胜球 → 进球数</text>
+                <text class="rule-text">• 第3名：12个小组第3名单独排序，前8晋级</text>
+            </view>
+        </view>
+    </view>
+</view>

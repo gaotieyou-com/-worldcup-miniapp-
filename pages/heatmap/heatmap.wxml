@@ -1,0 +1,38 @@
+<view class="heatmap-page" style="padding-top:{{navHeight}}px;">
+    <view class="page-bg-fixed"></view>
+    <custom-nav showBack="{{true}}" title="冠军热度榜" transparent="{{true}}"></custom-nav>
+    <view class="page-body">
+        <view class="loading-wrap" wx:if="{{loading}}">
+            <text class="loading-text">加载中...</text>
+        </view>
+        <view class="empty-wrap" wx:elif="{{heatmapList.length===0}}">
+            <text class="empty-text">暂无预测数据</text>
+        </view>
+        <view class="heatmap-full-list" wx:else>
+            <block wx:for="{{heatmapList}}" wx:key="teamCode">
+                <navigator class="heatmap-row rank-{{item.rank}} {{item.isMine?'is-mine':''}}" hoverClass="none" url="/pages/team/detail?code={{item.teamCode}}">
+                    <view class="heatmap-rank">
+                        <text class="rank-num">{{item.rank}}</text>
+                    </view>
+                    <view class="heatmap-team">
+                        <image class="heatmap-flag" mode="aspectFit" src="{{item.flagUrl}}" wx:if="{{item.flagUrl}}"></image>
+                        <view class="heatmap-flag-placeholder" wx:else></view>
+                        <text class="heatmap-name">{{item.teamName}}</text>
+                        <view class="mine-badge" wx:if="{{item.isMine}}">我的</view>
+                    </view>
+                    <view class="heatmap-bar-wrap">
+                        <view class="heatmap-bar" style="width:{{item.barWidth+'%'}};"></view>
+                    </view>
+                    <view class="heatmap-right">
+                        <text class="heatmap-pct">{{item.percentage}}%</text>
+                        <text class="heatmap-count">{{item.count}}票</text>
+                    </view>
+                </navigator>
+                <view class="ad-container" wx:if="{{item.rank===10&&adVisible}}">
+                    <ad-custom bindclose="onAdClose" binderror="onAdError" bindhide="onAdHide" bindload="onAdLoad" unitId="adunit-1d1e145ee87fc6cd"></ad-custom>
+                </view>
+            </block>
+        </view>
+        <view class="page-bottom-spacer"></view>
+    </view>
+</view>

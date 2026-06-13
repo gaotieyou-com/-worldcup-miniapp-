@@ -1,0 +1,12 @@
+<view class="globe-container">
+  <canvas type="webgl" id="globeCanvas" class="globe-canvas" bindtouchstart="onTouchStart" bindtouchmove="onTouchMove" bindtouchend="onTouchEnd"></canvas>
+  <view class="globe-overlay">
+    <view class="globe-header" wx:if="{{showPickHint}}">
+      <text class="globe-hint">{{pickHintTeam ? '选择 ' + pickHintTeam + ' 作为冠军？' : '旋转地球选择你的冠军'}}</text>
+    </view>
+    <view class="globe-footer">
+      <view class="globe-btn cancel" bindtap="onClose">关闭</view>
+      <view class="globe-btn confirm {{pickHintTeam ? '' : 'disabled'}}" bindtap="onConfirm">确认选择</view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,42 @@
+<view class="pick-page" style="padding-top:{{navHeight}}px;">
+    <view class="page-bg-fixed"></view>
+    <custom-nav showBack="{{true}}" title="亲选冠军" transparent="{{true}}"></custom-nav>
+    <view class="page-body">
+        <view class="pick-hero">
+            <view class="pick-hero-title">这次，由你说了算</view>
+            <view class="pick-hero-divider"></view>
+            <view class="pick-hero-sub">和"命运抽奖"互不影响，你的判断同样会汇入热度榜</view>
+        </view>
+        <view class="pick-search-bar">
+            <image class="pick-search-icon" mode="aspectFit" src="/images/icons/search-gray.svg"></image>
+            <input bindinput="onKeywordInput" class="pick-search-input" confirmType="search" placeholder="请输入球队名称" placeholderClass="pick-search-placeholder" value="{{keyword}}"></input>
+            <view bindtap="onClearKeyword" class="pick-search-clear" wx:if="{{keyword}}">
+                <image mode="aspectFit" src="/images/icons/x-gray.svg"></image>
+            </view>
+        </view>
+        <view class="pick-empty" wx:if="{{isEmpty}}">
+            <text>未找到匹配球队，换个关键词试试？</text>
+        </view>
+        <view class="pick-groups" wx:else>
+            <view class="pick-group" wx:for="{{filteredGroups}}" wx:for-item="grp" wx:key="group">
+                <view class="pick-group-header">小组 {{grp.group}}</view>
+                <view class="pick-group-list">
+                    <view bindtap="onTeamTap" class="pick-team-row {{item.code===selectedCode?'is-selected':''}} {{item.isEliminated?'is-eliminated':''}} {{item.code===selectedCode&&item.isEliminated?'is-eliminated-prev-pick':''}}" data-code="{{item.code}}" data-flag="{{item.flagUrl}}" data-name="{{item.nameCn}}" data-stage="{{item.eliminationStage}}" wx:for="{{grp.teams}}" wx:key="code">
+                        <image class="pick-team-flag" mode="aspectFit" src="{{item.flagUrl}}" wx:if="{{item.flagUrl}}"></image>
+                        <view class="pick-team-flag-placeholder" wx:else></view>
+                        <view class="pick-team-info">
+                            <text class="pick-team-name">{{item.nameCn}}</text>
+                            <text class="pick-team-code">{{item.code}}</text>
+                        </view>
+                        <view class="pick-team-elim-tag" wx:if="{{item.isEliminated&&item.code!==selectedCode}}">{{item.eliminationLabel}}</view>
+                        <view class="pick-team-check" wx:if="{{item.code===selectedCode&&!item.isEliminated}}">
+                            <image mode="aspectFit" src="/images/icons/check-white.svg"></image>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="pick-prev-pick-hint" wx:if="{{selectedCode&&userTeamElimination!=='alive'&&userTeamElimination!=='champion'}}">💔 你之前的选择已{{userTeamLabel}} · 可重新选择其他球队</view>
+        </view>
+        <view class="page-bottom-spacer"></view>
+    </view>
+</view>

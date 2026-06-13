@@ -1,0 +1,105 @@
+<view class="profile-page page-enter" style="padding-top:{{navHeight}}px;">
+    <view class="page-bg-fixed"></view>
+    <custom-nav leftIcon="users-white" title="个人中心" transparent="{{true}}"></custom-nav>
+    <view class="profile-header">
+        <image bindtap="onAvatarTap" class="profile-avatar" mode="aspectFill" src="{{userAvatar}}"></image>
+        <view class="profile-info">
+            <text class="profile-name">{{userName}}</text>
+        </view>
+        <view bindtap="onSwitchProfile" class="profile-switch">
+            <image class="switch-icon" mode="aspectFit" src="/images/icons/rotate-ccw-white.svg"></image>
+        </view>
+    </view>
+    <view class="stats-row">
+        <view catchtap="onGuessTap" class="stat-card stat-card-champion {{guessTeam?'has-selected':''}}">
+            <view class="stat-champion-main">
+                <image class="stat-champion-flag" mode="aspectFit" src="{{guessTeam.flagUrl}}" wx:if="{{guessTeam&&guessTeam.flagUrl}}"></image>
+                <text class="stat-champion-emoji" wx:else>🎲</text>
+                <text class="stat-champion-name">{{guessTeam?guessTeam.nameCn:'去预测'}}</text>
+            </view>
+            <text class="stat-label">冠军预测</text>
+        </view>
+        <view catchtap="onPredictMatchTap" class="stat-card stat-card-predict {{predictMatchCount>0?'has-selected':''}}">
+            <view class="stat-value-line" wx:if="{{predictMatchCount==='—'}}">
+                <text class="stat-value">—</text>
+            </view>
+            <view class="stat-value-line" wx:elif="{{predictMatchCount>0}}">
+                <text class="stat-value">{{predictMatchCount}}</text>
+                <text class="stat-unit">场</text>
+            </view>
+            <view class="stat-champion-main" wx:else>
+                <text class="stat-champion-emoji">⚽</text>
+                <text class="stat-champion-name">去预测</text>
+            </view>
+            <text class="stat-label">比分预测</text>
+        </view>
+        <navigator class="stat-card" hoverClass="none" url="/pages/share-card/share-card" wx:if="{{enableShareCard}}">
+            <view class="stat-share-main">
+                <image class="stat-share-icon" mode="aspectFit" src="/images/icons/share-white.svg"></image>
+            </view>
+            <text class="stat-label">分享给好友</text>
+        </navigator>
+        <view class="stat-card" wx:else>
+            <button class="share-card-btn" openType="share">
+                <view class="stat-share-main">
+                    <image class="stat-share-icon" mode="aspectFit" src="/images/icons/share-white.svg"></image>
+                </view>
+                <text class="stat-label">分享给好友</text>
+            </button>
+        </view>
+    </view>
+    <view class="fav-section-header">
+        <text class="fav-section-title">我的收藏</text>
+    </view>
+    <scroll-view class="pill-tab-bar" scrollX="{{true}}" showScrollbar="{{false}}">
+        <pill-tab active="{{activeTab===item.key}}" bindtap="onTabTap" data-key="{{item.key}}" variant="solid" wx:for="{{tabs}}" wx:key="key">{{item.label}} {{item.count>0?'('+item.count+')':''}}</pill-tab>
+    </scroll-view>
+    <view class="content">
+        <view class="match-list" wx:if="{{filteredList.length>0}}">
+            <view class="match-item {{item._removing?'removing':''}}" wx:for="{{filteredList}}" wx:key="id">
+                <match-card bind:favChange="onFavChange" match="{{item}}" mode="compact"></match-card>
+            </view>
+        </view>
+        <view class="empty-state" wx:if="{{filteredList.length===0}}">
+            <view class="empty-icon-wrap" style="background:{{emptyIconBg}}">
+                <image class="empty-icon" mode="aspectFit" src="{{emptyIcon}}"></image>
+            </view>
+            <text class="empty-title">{{emptyTitle}}</text>
+            <text class="empty-subtitle">{{emptySubtitle}}</text>
+            <view bindtap="onEmptyAction" class="empty-btn" wx:if="{{emptyBtnText}}">{{emptyBtnText}}</view>
+        </view>
+    </view>
+    <view bindtap="onClosePreview" class="avatar-preview {{showPreview?'preview-visible':''}}">
+        <view catchtap="onPreviewContentTap" class="preview-content">
+            <image class="preview-avatar" mode="aspectFill" src="{{userAvatar}}"></image>
+            <text class="preview-name">{{userName}}</text>
+        </view>
+    </view>
+    <view bindtap="onCloseChampionPreview" class="champion-preview {{showChampionPreview?'preview-visible':''}}">
+        <view catchtap="onChampionContentTap" class="champion-preview-content">
+            <view class="champion-flag-circle">
+                <image class="champion-flag-img" mode="aspectFill" src="{{guessTeam.flagUrl}}" wx:if="{{guessTeam&&guessTeam.flagUrl}}"></image>
+            </view>
+            <text class="champion-name">{{guessTeam.nameCn}}</text>
+            <text class="champion-meta">我的冠军预测 · 已锁定</text>
+            <view catchtap="onChangeChampion" class="champion-action">更换预测</view>
+        </view>
+    </view>
+    <view class="recommend-section">
+        <view class="recommend-header">
+            <text class="recommend-title">🔥 热门小程序推荐</text>
+        </view>
+        <view class="recommend-list">
+            <view class="recommend-item" wx:for="{{recommendApps}}" wx:key="appId" bindtap="onRecommendTap" data-index="{{index}}">
+                <view class="recommend-icon-wrap" style="background:{{item.bgColor}};">
+                    <text class="recommend-icon">{{item.icon}}</text>
+                </view>
+                <view class="recommend-info">
+                    <text class="recommend-name">{{item.name}}</text>
+                    <text class="recommend-desc">{{item.desc}}</text>
+                </view>
+                <text class="recommend-arrow">›</text>
+            </view>
+        </view>
+    </view>
+</view>

@@ -1,0 +1,71 @@
+.team-flag {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.team-flag.vertical {
+  flex-direction: column;
+  gap: 4rpx;
+}
+
+.team-flag.horizontal {
+  flex-direction: row;
+}
+
+.flag-image {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 4rpx;
+}
+
+.flag-emoji {
+  font-size: 36rpx;
+  line-height: 1;
+}
+
+.team-name {
+  font-size: 24rpx;
+  color: #333333;
+  max-width: 120rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Size variants */
+.team-flag.tiny .flag-image,
+.team-flag.tiny .flag-emoji {
+  width: 32rpx;
+  height: 32rpx;
+  font-size: 24rpx;
+}
+
+.team-flag.tiny .team-name {
+  font-size: 20rpx;
+  max-width: 80rpx;
+}
+
+.team-flag.small .flag-image,
+.team-flag.small .flag-emoji {
+  width: 40rpx;
+  height: 40rpx;
+  font-size: 32rpx;
+}
+
+.team-flag.small .team-name {
+  font-size: 22rpx;
+  max-width: 100rpx;
+}
+
+.team-flag.large .flag-image,
+.team-flag.large .flag-emoji {
+  width: 64rpx;
+  height: 64rpx;
+  font-size: 48rpx;
+}
+
+.team-flag.large .team-name {
+  font-size: 28rpx;
+  max-width: 160rpx;
+}

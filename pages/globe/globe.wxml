@@ -1,0 +1,1 @@
+<globe bind:close="onGlobeClose" bind:confirm="onGlobeConfirm" bind:pick="onGlobePick" class="globe-host" isUserTeamDead="{{isUserTeamDead}}" pickHintTeam="{{pickHintTeam}}" showPickHint="{{showPickHint}}" teams="{{allTeams}}" userTeamDeadLabel="{{userTeamDeadLabel}}" visitedGuess="{{visitedGuess}}"></globe>

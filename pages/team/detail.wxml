@@ -1,0 +1,27 @@
+<view class="team-detail-page page-enter" style="padding-top:{{navHeight}}px;">
+    <view class="page-bg-fixed"></view>
+    <custom-nav showBack="{{true}}" title="球队详情" transparent="{{true}}"></custom-nav>
+    <view class="team-header">
+        <view class="team-flag-large">
+            <team-flag showName="{{false}}" size="large" team="{{team}}"></team-flag>
+        </view>
+        <view class="team-meta">
+            <view class="team-title-row">
+                <text class="team-name-cn">{{team.nameCn||team.name}}</text>
+            </view>
+            <view class="team-sub-row">
+                <text class="team-name-en" wx:if="{{team.nameCn&&team.name}}">{{team.name}}</text>
+                <text class="team-divider" wx:if="{{team.group&&team.nameCn&&team.name}}">·</text>
+                <text class="team-group" wx:if="{{team.group}}">{{team.group}}组</text>
+            </view>
+        </view>
+    </view>
+    <view class="ad-container" wx:if="{{adVisible}}">
+        <ad-custom bindclose="onAdClose" binderror="onAdError" bindhide="onAdHide" bindload="onAdLoad" unitId="adunit-1d1e145ee87fc6cd"></ad-custom>
+    </view>
+    <match-card disableTeamTap="{{true}}" match="{{item}}" mode="compact" wx:for="{{teamMatches}}" wx:key="id"></match-card>
+    <view class="empty-state" wx:if="{{teamMatches.length===0}}">
+        <image class="empty-icon" mode="aspectFit" src="/images/icons/calendar-gray.svg"></image>
+        <text>暂无比赛数据</text>
+    </view>
+</view>

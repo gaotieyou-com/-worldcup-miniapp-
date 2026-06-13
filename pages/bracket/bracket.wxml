@@ -1,0 +1,198 @@
+<view class="bracket-page">
+    <view class="nav-spacer" style="height:{{statusBarHeight + 20}}px;"></view>
+    <view class="nav-bar">
+        <view bindtap="onBack" class="nav-back">
+            <text class="nav-back-icon">‹</text>
+        </view>
+        <text class="nav-title">完整对阵图</text>
+    </view>
+    <view class="section-divider">
+        <text class="divider-label">小 组 赛</text>
+    </view>
+    <view class="groups-grid">
+        <view bindtap="onGroupCardTap" class="group-card" data-group="{{g.name}}" wx:for="{{groups}}" wx:for-item="g" wx:key="name">
+            <view class="group-card-label" style="color:{{g.accent}};">{{g.name}}组</view>
+            <view class="group-teams">
+                <view class="group-team" wx:for="{{g.teams}}" wx:for-item="t" wx:key="cn">
+                    <text class="flag">{{t.flag}}</text>
+                    <text class="name">{{t.cn}}</text>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="section-divider">
+        <text class="divider-label">淘 汰 赛</text>
+    </view>
+    <view class="bracket-section">
+        <view class="bracket-zoom-container">
+            <view class="bracket-zoom-content" style="transform:scale({{bracketZoom}});transform-origin:center top;">
+                <view class="bracket-wrapper" id="bracket-wrapper" style="{{bracketContentHeight?'height:'+bracketContentHeight+'px':''}}">
+                    <view class="line-layer" style="height:{{wrapperHeight}}px;">
+                        <view class="line {{item.type==='v'?'line-v':'line-h'}}" style="left:{{item.x}}px;top:{{item.y}}px;{{item.type==='v'?'height:'+item.h+'px':'width:'+item.w+'px'}};;" wx:for="{{lines}}" wx:key="index"></view>
+                    </view>
+                    <block wx:for="{{leftCols}}" wx:for-item="col" wx:key="label">
+                        <view class="round-col {{col.cls}}">
+                            <view class="round-label">{{col.label}}</view>
+                            <view bindtap="onKOTap" class="mc mc-{{m.num}}" data-num="{{m.num}}" wx:for="{{col.matches}}" wx:for-item="m" wx:key="num">
+                                <view class="mc-team {{m.home.winner?'winner':''}}">
+                                    <text class="flag {{m.home.placeholder?'flag-dim':''}}">{{m.home.flag}}</text>
+                                    <text class="name {{m.home.placeholder?'placeholder':''}}">{{m.home.name}}</text>
+                                    <text class="score {{m.home.hasScore?'has-score':''}}">{{m.home.score}}</text>
+                                </view>
+                                <view class="mc-team {{m.away.winner?'winner':''}}">
+                                    <text class="flag {{m.away.placeholder?'flag-dim':''}}">{{m.away.flag}}</text>
+                                    <text class="name {{m.away.placeholder?'placeholder':''}}">{{m.away.name}}</text>
+                                    <text class="score {{m.away.hasScore?'has-score':''}}">{{m.away.score}}</text>
+                                </view>
+                            </view>
+                        </view>
+                        <view class="connector-gap"></view>
+                    </block>
+                    <view class="round-col final-col">
+                        <view class="final-glow"></view>
+                        <view class="final-header">
+                            <view class="final-trophy">🏆</view>
+                            <view class="final-title">决 赛</view>
+                        </view>
+                        <view bindtap="onKOTap" class="final-card mc-104" data-num="104" wx:if="{{finalMatch}}">
+                            <view class="mc-team {{finalMatch.home.winner?'winner':''}}">
+                                <text class="flag {{finalMatch.home.placeholder?'flag-dim':''}}">{{finalMatch.home.flag}}</text>
+                                <text class="name {{finalMatch.home.placeholder?'placeholder':''}}">{{finalMatch.home.name}}</text>
+                                <text class="score {{finalMatch.home.hasScore?'has-score':''}}">{{finalMatch.home.score}}</text>
+                            </view>
+                            <view class="mc-team {{finalMatch.away.winner?'winner':''}}">
+                                <text class="flag {{finalMatch.away.placeholder?'flag-dim':''}}">{{finalMatch.away.flag}}</text>
+                                <text class="name {{finalMatch.away.placeholder?'placeholder':''}}">{{finalMatch.away.name}}</text>
+                                <text class="score {{finalMatch.away.hasScore?'has-score':''}}">{{finalMatch.away.score}}</text>
+                            </view>
+                        </view>
+                        <view class="third-block" wx:if="{{thirdMatch}}">
+                            <view class="third-label">三四名决赛</view>
+                            <view bindtap="onKOTap" class="third-place-card mc-103" data-num="103">
+                                <view class="mc-team {{thirdMatch.home.winner?'winner':''}}">
+                                    <text class="flag {{thirdMatch.home.placeholder?'flag-dim':''}}">{{thirdMatch.home.flag}}</text>
+                                    <text class="name {{thirdMatch.home.placeholder?'placeholder':''}}">{{thirdMatch.home.name}}</text>
+                                    <text class="score {{thirdMatch.home.hasScore?'has-score':''}}">{{thirdMatch.home.score}}</text>
+                                </view>
+                                <view class="mc-team {{thirdMatch.away.winner?'winner':''}}">
+                                    <text class="flag {{thirdMatch.away.placeholder?'flag-dim':''}}">{{thirdMatch.away.flag}}</text>
+                                    <text class="name {{thirdMatch.away.placeholder?'placeholder':''}}">{{thirdMatch.away.name}}</text>
+                                    <text class="score {{thirdMatch.away.hasScore?'has-score':''}}">{{thirdMatch.away.score}}</text>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                    <block wx:for="{{rightCols}}" wx:for-item="col" wx:key="label">
+                        <view class="connector-gap"></view>
+                        <view class="round-col {{col.cls}}">
+                            <view class="round-label">{{col.label}}</view>
+                            <view bindtap="onKOTap" class="mc mc-{{m.num}}" data-num="{{m.num}}" wx:for="{{col.matches}}" wx:for-item="m" wx:key="num">
+                                <view class="mc-team {{m.home.winner?'winner':''}}">
+                                    <text class="flag {{m.home.placeholder?'flag-dim':''}}">{{m.home.flag}}</text>
+                                    <text class="name {{m.home.placeholder?'placeholder':''}}">{{m.home.name}}</text>
+                                    <text class="score {{m.home.hasScore?'has-score':''}}">{{m.home.score}}</text>
+                                </view>
+                                <view class="mc-team {{m.away.winner?'winner':''}}">
+                                    <text class="flag {{m.away.placeholder?'flag-dim':''}}">{{m.away.flag}}</text>
+                                    <text class="name {{m.away.placeholder?'placeholder':''}}">{{m.away.name}}</text>
+                                    <text class="score {{m.away.hasScore?'has-score':''}}">{{m.away.score}}</text>
+                                </view>
+                            </view>
+                        </view>
+                    </block>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="footer"></view>
+    <view bindtap="onCloseGroupPopup" class="popup-overlay" wx:if="{{activeGroupPopup}}">
+        <view catchtap="noop" class="popup-card popup-card-group">
+            <view class="popup-header">
+                <text class="popup-title">{{activeGroupPopup}} 组</text>
+            </view>
+            <view class="popup-body">
+                <view class="popup-match-row" wx:for="{{groupPopupMatches}}" wx:for-item="m" wx:key="id">
+                    <view class="popup-date-col">
+                        <text class="popup-date-num">{{m.dateShort}}</text>
+                        <text class="popup-date-week">{{m.weekday}}</text>
+                    </view>
+                    <view class="pmr-team pmr-left">
+                        <team-flag layout="vertical" showName="{{true}}" size="small" team="{{m.homeTeam}}" useImageFlag="{{true}}"></team-flag>
+                    </view>
+                    <view class="pmr-center">
+                        <text class="pmr-time {{m.showScore?'pmr-score':''}}">{{m.showScore?m.scoreText:m.time}}</text>
+                        <view class="pmr-status {{m.isLive?'pmr-live':''}} {{m.isFinished?'pmr-finished':''}}">
+                            <view class="live-dot" wx:if="{{m.isLive}}"></view>
+                            <text>{{m.statusText}}</text>
+                        </view>
+                    </view>
+                    <view class="pmr-team pmr-right">
+                        <team-flag layout="vertical" showName="{{true}}" size="small" team="{{m.awayTeam}}" useImageFlag="{{true}}"></team-flag>
+                    </view>
+                </view>
+                <view class="popup-bottom-spacer"></view>
+            </view>
+        </view>
+    </view>
+    <view bindtap="onCloseKOPopup" class="popup-overlay" wx:if="{{activeKOPopup}}">
+        <view catchtap="noop" class="popup-card popup-card-ko">
+            <view class="popup-header">
+                <text class="popup-title">{{koPopupData.stageText}}</text>
+            </view>
+            <view class="popup-body">
+                <view class="popup-match-row">
+                    <view class="pmr-team pmr-left">
+                        <block wx:if="{{koPopupData.hasResult}}">
+                            <team-flag layout="vertical" showName="{{true}}" size="large" team="{{koPopupData.homeTeam}}" useImageFlag="{{true}}" wx:if="{{koPopupData.homeTeam}}"></team-flag>
+                        </block>
+                        <view class="ko-tbd-col" wx:else>
+                            <text class="ko-tbd-trophy">🏆</text>
+                            <text class="ko-tbd-desc">{{koPopupData.homePlaceholder||'待定'}}</text>
+                        </view>
+                    </view>
+                    <view class="pmr-center">
+                        <block wx:if="{{!koPopupData.hasResult}}">
+                            <text class="pmr-time">{{koPopupData.time}}</text>
+                            <view class="pmr-status">
+                                <text>未开赛</text>
+                            </view>
+                        </block>
+                        <block wx:else>
+                            <text class="pmr-time pmr-score">{{koPopupData.homeScore}} - {{koPopupData.awayScore}}</text>
+                            <view class="pmr-status {{koPopupData.isLive?'pmr-live':'pmr-finished'}}">
+                                <view class="live-dot" wx:if="{{koPopupData.isLive}}"></view>
+                                <text>{{koPopupData.statusText}}</text>
+                            </view>
+                        </block>
+                    </view>
+                    <view class="pmr-team pmr-right">
+                        <block wx:if="{{koPopupData.hasResult}}">
+                            <team-flag layout="vertical" showName="{{true}}" size="large" team="{{koPopupData.awayTeam}}" useImageFlag="{{true}}" wx:if="{{koPopupData.awayTeam}}"></team-flag>
+                        </block>
+                        <view class="ko-tbd-col" wx:else>
+                            <text class="ko-tbd-trophy">🏆</text>
+                            <text class="ko-tbd-desc">{{koPopupData.awayPlaceholder||'待定'}}</text>
+                        </view>
+                    </view>
+                </view>
+                <view class="ko-info-section">
+                    <view class="ko-meta-row">
+                        <view class="ko-meta-left">
+                            <image class="ko-meta-icon" mode="aspectFit" src="/images/icons/clock-blue.svg"></image>
+                            <text class="ko-meta-label">北京时间</text>
+                        </view>
+                        <text class="ko-meta-value">{{koPopupData.dateFull}}</text>
+                    </view>
+                    <view class="ko-meta-row" wx:if="{{koPopupData.venue}}">
+                        <view class="ko-meta-left">
+                            <image class="ko-meta-icon" mode="aspectFit" src="/images/icons/map-pin-red.svg"></image>
+                            <text class="ko-meta-label">场馆</text>
+                        </view>
+                        <text class="ko-meta-value">{{koPopupData.venueDisplay}}</text>
+                    </view>
+                </view>
+                <view class="popup-bottom-spacer"></view>
+            </view>
+        </view>
+    </view>
+</view>

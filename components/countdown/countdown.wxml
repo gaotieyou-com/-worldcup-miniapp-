@@ -1,0 +1,32 @@
+<view class="countdown-container">
+  <view class="countdown-header">
+    <text class="countdown-title">{{title}}</text>
+  </view>
+  <view class="countdown-body" wx:if="{{!isStarted}}">
+    <view class="countdown-item">
+      <text class="countdown-num">{{days}}</text>
+      <text class="countdown-label">天</text>
+    </view>
+    <view class="countdown-separator">:</view>
+    <view class="countdown-item">
+      <text class="countdown-num">{{hours}}</text>
+      <text class="countdown-label">时</text>
+    </view>
+    <view class="countdown-separator">:</view>
+    <view class="countdown-item">
+      <text class="countdown-num">{{minutes}}</text>
+      <text class="countdown-label">分</text>
+    </view>
+    <view class="countdown-separator">:</view>
+    <view class="countdown-item">
+      <text class="countdown-num">{{seconds}}</text>
+      <text class="countdown-label">秒</text>
+    </view>
+  </view>
+  <view class="countdown-started" wx:else>
+    <text class="started-text">赛事进行中</text>
+    <view class="match-stats" wx:if="{{playedMatchesCount > 0}}">
+      <text class="stats-text">已进行 {{playedMatchesCount}} 场比赛</text>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,53 @@
+<view class="predict-dist-page" style="padding-top:{{navHeight}}px;">
+    <view class="page-bg-fixed"></view>
+    <custom-nav showBack="{{true}}" title="比分热度榜" transparent="{{true}}"></custom-nav>
+    <view class="page-body">
+        <view class="context-header" wx:if="{{homeName||awayName}}">
+            <view class="ctx-teams">
+                <view class="ctx-team-flag">
+                    <team-flag layout="horizontal" showName="{{true}}" size="small" teamCode="{{homeCode}}" useImageFlag="{{true}}" wx:if="{{homeCode}}"></team-flag>
+                    <text class="ctx-team" wx:else>{{homeName||'主队'}}</text>
+                </view>
+                <text class="ctx-vs">vs</text>
+                <view class="ctx-team-flag">
+                    <team-flag layout="horizontal" showName="{{true}}" size="small" teamCode="{{awayCode}}" useImageFlag="{{true}}" wx:if="{{awayCode}}"></team-flag>
+                    <text class="ctx-team" wx:else>{{awayName||'客队'}}</text>
+                </view>
+            </view>
+            <view class="ctx-kickoff" wx:if="{{kickoff}}">
+                <text class="ctx-kickoff-time">{{kickoff}}</text>
+            </view>
+        </view>
+        <view class="ad-container" wx:if="{{adVisible}}">
+            <ad-custom bindclose="onAdClose" binderror="onAdError" bindload="onAdLoad" unitId="adunit-1d1e145ee87fc6cd"></ad-custom>
+        </view>
+        <view class="loading-wrap" wx:if="{{loading}}">
+            <text class="loading-text">加载中...</text>
+        </view>
+        <view class="error-wrap" wx:elif="{{loadError}}">
+            <text class="error-text">加载失败，请下拉刷新</text>
+        </view>
+        <view class="empty-wrap" wx:elif="{{distList.length===0}}">
+            <text class="empty-text">暂无预测数据</text>
+        </view>
+        <view class="dist-full-list" wx:else>
+            <view class="dist-row rank-{{item.rank}} {{item.isMine?'is-mine':''}}" wx:for="{{distList}}" wx:key="score">
+                <view class="dist-rank">
+                    <text class="rank-num">{{item.rank}}</text>
+                </view>
+                <view class="dist-score-col">
+                    <text class="dist-score">{{item.score}}</text>
+                    <view class="mine-badge" wx:if="{{item.isMine}}">我的</view>
+                </view>
+                <view class="dist-bar-wrap">
+                    <view class="dist-bar" style="width:{{item.barWidth+'%'}};"></view>
+                </view>
+                <view class="dist-right">
+                    <text class="dist-pct">{{item.percentage}}%</text>
+                    <text class="dist-count">{{item.count}}票</text>
+                </view>
+            </view>
+        </view>
+        <view class="page-bottom-spacer"></view>
+    </view>
+</view>

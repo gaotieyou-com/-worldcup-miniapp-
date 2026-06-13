@@ -1,0 +1,12 @@
+<view class="predict-dist" wx:if="{{matchPredictStats.length>0}}">
+    <view class="dist-row rank-{{index+1}} {{item.isMine?'mine':''}}" wx:for="{{matchPredictStats}}" wx:key="score">
+        <text class="dist-score">{{item.score}}</text>
+        <view class="dist-bar-wrap">
+            <view class="dist-bar" style="width:{{item.barWidth+'%'}};"></view>
+        </view>
+        <text class="dist-pct">{{item.percentage}}%</text>
+    </view>
+</view>
+<view class="predict-empty" wx:elif="{{matchPredictTotal===0&&predictState!=='input'}}">
+    <text>暂无预测数据，成为第一个预测者！</text>
+</view>

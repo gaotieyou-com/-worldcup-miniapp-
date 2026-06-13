@@ -1,0 +1,147 @@
+.match-card {
+  display: block;
+  background: #ffffff;
+  border-radius: 16rpx;
+  margin: 16rpx;
+  overflow: hidden;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
+}
+
+.match-card.compact {
+  margin: 8rpx 16rpx;
+  border-radius: 12rpx;
+}
+
+.card-inner {
+  padding: 20rpx;
+}
+
+.compact .card-inner {
+  padding: 16rpx;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+  padding-bottom: 12rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.card-stage {
+  font-size: 24rpx;
+  color: #666666;
+  font-weight: 500;
+}
+
+.card-date {
+  font-size: 22rpx;
+  color: #999999;
+}
+
+.card-body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.team-side {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.team-side.home {
+  justify-content: flex-start;
+}
+
+.team-side.away {
+  justify-content: flex-end;
+}
+
+.score-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 120rpx;
+  margin: 0 16rpx;
+}
+
+.score-display {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8rpx;
+}
+
+.score-num {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #333333;
+}
+
+.score-separator {
+  font-size: 32rpx;
+  color: #999999;
+  margin: 0 8rpx;
+}
+
+.time-display {
+  margin-bottom: 8rpx;
+}
+
+.match-time {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333333;
+}
+
+.status-tag {
+  display: flex;
+  align-items: center;
+  padding: 4rpx 12rpx;
+  border-radius: 20rpx;
+  font-size: 20rpx;
+  background: #f5f5f5;
+  color: #666666;
+}
+
+.status-tag.live {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.status-tag.finished {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.live-dot {
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  background: #c62828;
+  margin-right: 6rpx;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.card-footer {
+  margin-top: 12rpx;
+  padding-top: 12rpx;
+  border-top: 1rpx solid #f0f0f0;
+  text-align: center;
+}
+
+.predict-hint {
+  font-size: 22rpx;
+  color: #999999;
+}

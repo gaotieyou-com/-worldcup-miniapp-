@@ -1,0 +1,69 @@
+<view class="share-card-page page-enter" style="padding-top:{{navHeight}}px;">
+    <custom-nav showBack="{{true}}" title="分享海报" transparent="{{true}}"></custom-nav>
+    <view class="preview-section">
+        <view class="preview-card {{isLocked?'locked':''}}">
+            <view class="preview-mock" style="background:{{selectedTemplate.previewBg}}">
+                <view class="preview-content-inner">
+                    <view class="preview-flag-circle">
+                        <image class="preview-flag-img" mode="aspectFill" src="{{guessTeam.flagUrl}}" wx:if="{{guessTeam&&guessTeam.flagUrl}}"></image>
+                        <text class="preview-flag-placeholder" wx:else>⚽</text>
+                    </view>
+                    <text class="preview-text-1">我在 2026 世界杯预测了</text>
+                    <text class="preview-text-2">{{guessTeam?guessTeam.nameCn:'冠军球队'}} 夺冠！</text>
+                    <view class="preview-user-row">
+                        <image class="preview-user-avatar" mode="aspectFill" src="{{userAvatar}}" wx:if="{{userAvatar}}"></image>
+                        <text class="preview-user-name">{{userName||'球迷'}}</text>
+                    </view>
+                </view>
+            </view>
+            <view class="lock-overlay" wx:if="{{isLocked}}">
+                <text class="lock-title">当前模板待解锁</text>
+                <text class="lock-sub">观看短视频即可解锁此模板</text>
+                <view bindtap="onUnlockTap" class="lock-btn">
+                    <text>观看视频解锁</text>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="ad-container" wx:if="{{adVisible}}">
+        <ad-custom binderror="onAdError" bindload="onAdLoad" unitId="adunit-1d1e145ee87fc6cd"></ad-custom>
+    </view>
+    <view class="template-section">
+        <view class="template-label">分享卡模板</view>
+        <scroll-view class="template-scroll" enhanced="{{true}}" scrollX="{{true}}" showScrollbar="{{false}}">
+            <view class="template-list">
+                <view bindtap="onTemplateTap" class="template-item {{selectedIndex===index?'active':''}} {{item.locked&&!item._unlocked?'locked-item':''}}" data-index="{{index}}" style="background:{{item.previewBg}}" wx:for="{{templates}}" wx:key="id">
+                    <text class="template-name">{{item.name}}</text>
+                    <view class="template-badge" wx:if="{{item.locked&&!item._unlocked}}">
+                        <text>锁定</text>
+                    </view>
+                </view>
+            </view>
+        </scroll-view>
+        <text class="template-hint">五套主题风格，选择你喜欢的。</text>
+    </view>
+    <view class="action-section">
+        <view bindtap="onGenerate" class="generate-btn {{isLocked?'locked-btn':''}}">
+            <text wx:if="{{isLocked}}">🔒 观看视频后解锁生成</text>
+            <text wx:else>{{generating?'生成中...':'生成并保存海报'}}</text>
+        </view>
+    </view>
+    <canvas class="hidden-canvas" id="posterCanvas" style="width:{{750}}px;height:{{600}}px;" type="2d"></canvas>
+    <view bindtap="onCloseSuccess" class="success-overlay {{showSuccess?'visible':''}}">
+        <view catchtap="" class="success-card">
+            <view class="success-icon-wrap">
+                <text class="success-icon">✅</text>
+            </view>
+            <text class="success-title">海报已保存到相册</text>
+            <text class="success-sub">分享路径：微信朋友圈 → 从手机相册选择</text>
+            <view class="success-actions">
+                <view bindtap="onCloseSuccess" class="success-btn secondary">
+                    <text>知道了</text>
+                </view>
+                <view bindtap="onGoShare" class="success-btn primary">
+                    <text>去分享</text>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

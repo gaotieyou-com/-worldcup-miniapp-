@@ -1,0 +1,49 @@
+<view class="search-page" style="padding-top:{{navHeight}}px;">
+    <view class="page-bg-fixed"></view>
+    <custom-nav showBack="{{true}}" title="搜索球队" transparent="{{true}}"></custom-nav>
+    <view class="search-bar-wrap">
+        <view class="search-box">
+            <image class="search-icon-svg" mode="aspectFit" src="/images/icons/search-gray.svg"></image>
+            <input bindconfirm="onSearchConfirm" bindinput="onSearchInput" class="search-input" confirmType="search" focus="{{pageState==='browse'}}" placeholder="清输入球队名称" placeholderClass="search-placeholder" value="{{keyword}}"></input>
+            <view bindtap="onClearSearch" class="search-clear" wx:if="{{keyword}}">
+                <image class="clear-icon" mode="aspectFit" src="/images/icons/x-gray.svg"></image>
+            </view>
+        </view>
+    </view>
+    <view class="browse-state" wx:if="{{pageState==='browse'}}">
+        <view class="section-label">按小组浏览</view>
+        <view class="group-tabs">
+            <view bindtap="onGroupTap" class="group-tab {{activeGroup===item?'active':''}}" data-group="{{item}}" wx:for="{{groupList}}" wx:key="*this">{{item}}</view>
+        </view>
+        <view class="section-label team-count">{{currentGroupTeams.length}} 支球队</view>
+        <view class="team-list">
+            <navigator class="team-item" hoverClass="none" url="/pages/team/detail?code={{item.code}}" wx:for="{{currentGroupTeams}}" wx:key="code">
+                <team-flag showName="{{false}}" size="tiny" team="{{item}}"></team-flag>
+                <view class="team-info">
+                    <text class="team-name-cn">{{item.nameCn}}</text>
+                    <text class="team-name-en">{{item.name}}</text>
+                </view>
+                <text class="team-group-tag">{{item.group}}组</text>
+                <image class="team-arrow" mode="aspectFit" src="/images/icons/chevron-right-gray.svg"></image>
+            </navigator>
+        </view>
+    </view>
+    <view class="search-state" wx:if="{{pageState==='search'}}">
+        <view class="result-hint" wx:if="{{searchResults.length>0}}">找到 {{searchResults.length}} 支球队</view>
+        <view class="result-hint empty" wx:else>未找到匹配球队</view>
+        <view class="team-list">
+            <navigator class="team-item" hoverClass="none" url="/pages/team/detail?code={{item.code}}" wx:for="{{searchResults}}" wx:key="code">
+                <team-flag showName="{{false}}" size="tiny" team="{{item}}"></team-flag>
+                <view class="team-info">
+                    <text class="team-name-cn">{{item.nameCn}}</text>
+                    <text class="team-name-en">{{item.name}}</text>
+                </view>
+                <text class="team-group-tag">{{item.group}}组</text>
+                <image class="team-arrow" mode="aspectFit" src="/images/icons/chevron-right-gray.svg"></image>
+            </navigator>
+        </view>
+    </view>
+    <view class="ad-container" wx:if="{{adVisible&&!(pageState==='search'&&searchResults.length===0)}}">
+        <ad-custom bindclose="onAdClose" binderror="onAdError" bindload="onAdLoad" unitId="adunit-1d1e145ee87fc6cd"></ad-custom>
+    </view>
+</view>

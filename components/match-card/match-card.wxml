@@ -1,0 +1,33 @@
+<navigator class="match-card {{mode}}" hoverClass="none" url="/pages/match/detail?id={{match.id}}">
+  <view class="card-inner">
+    <view class="card-header" wx:if="{{mode!=='compact'}}">
+      <text class="card-stage">{{match.group || match.stage}}</text>
+      <text class="card-date">{{match.date}}</text>
+    </view>
+    <view class="card-body">
+      <view class="team-side home">
+        <team-flag showName="{{true}}" size="{{mode==='compact'?'tiny':'small'}}" teamCode="{{match.home}}"></team-flag>
+      </view>
+      <view class="score-center">
+        <view class="score-display {{isLive||isFinished?'has-score':''}}" wx:if="{{isLive || isFinished}}">
+          <text class="score-num">{{homeScore}}</text>
+          <text class="score-separator">-</text>
+          <text class="score-num">{{awayScore}}</text>
+        </view>
+        <view class="time-display" wx:else>
+          <text class="match-time">{{match.time}}</text>
+        </view>
+        <view class="status-tag {{statusClass}}">
+          <view class="live-dot" wx:if="{{isLive}}"></view>
+          <text>{{statusText}}</text>
+        </view>
+      </view>
+      <view class="team-side away">
+        <team-flag showName="{{true}}" size="{{mode==='compact'?'tiny':'small'}}" teamCode="{{match.away}}"></team-flag>
+      </view>
+    </view>
+    <view class="card-footer" wx:if="{{showPredictHint && predictCount > 0}}">
+      <text class="predict-hint">{{predictCount}} 人已预测</text>
+    </view>
+  </view>
+</navigator>

@@ -1,0 +1,71 @@
+.globe-container {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  background: #030712;
+}
+
+.globe-canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.globe-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.globe-header {
+  padding: 120rpx 32rpx 32rpx;
+  text-align: center;
+  pointer-events: auto;
+}
+
+.globe-hint {
+  font-size: 32rpx;
+  color: #ffffff;
+  font-weight: 600;
+  text-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.5);
+}
+
+.globe-footer {
+  display: flex;
+  gap: 24rpx;
+  padding: 32rpx;
+  padding-bottom: calc(32rpx + env(safe-area-inset-bottom));
+  pointer-events: auto;
+}
+
+.globe-btn {
+  flex: 1;
+  height: 88rpx;
+  border-radius: 44rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30rpx;
+  font-weight: 600;
+}
+
+.globe-btn.cancel {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  backdrop-filter: blur(10px);
+}
+
+.globe-btn.confirm {
+  background: #E5C462;
+  color: #0D3B2E;
+}
+
+.globe-btn.confirm.disabled {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.5);
+}

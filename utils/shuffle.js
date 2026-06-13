@@ -1,0 +1,1 @@
+module.exports={shuffle:function(r){if(!Array.isArray(r)||r.length<=1)return Array.isArray(r)?r.slice():[];for(var e=r.slice(),t=e.length-1;t>0;t--){var a=Math.floor(Math.random()*(t+1)),s=e[t];e[t]=e[a],e[a]=s}return e}};

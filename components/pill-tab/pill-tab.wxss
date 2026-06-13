@@ -1,0 +1,36 @@
+.pill-tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12rpx 24rpx;
+  border-radius: 32rpx;
+  font-size: 24rpx;
+  color: #666666;
+  background: #f5f5f5;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.pill-tab.solid {
+  background: #f0f0f0;
+}
+
+.pill-tab.solid.active {
+  background: #0D3B2E;
+  color: #ffffff;
+}
+
+.pill-tab.ghost {
+  background: transparent;
+  border: 2rpx solid #e0e0e0;
+}
+
+.pill-tab.ghost.active {
+  background: #0D3B2E;
+  border-color: #0D3B2E;
+  color: #ffffff;
+}
+
+.pill-tab.active {
+  font-weight: 600;
+}

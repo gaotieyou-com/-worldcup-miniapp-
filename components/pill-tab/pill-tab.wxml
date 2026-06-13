@@ -1,0 +1,3 @@
+<view class="pill-tab {{variant}} {{active?'active':''}}" bindtap="onTap">
+  <slot></slot>
+</view>
