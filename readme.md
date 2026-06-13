@@ -22,7 +22,11 @@
 3. **积分榜**：查看12个小组的实时积分榜
 4. **个人中心**：查看预测记录、收藏比赛、生成分享海报
 
-### 注意事项
+ 开源不易，如果觉得本项目对您的工作还是有帮助的话， 请帮忙在GitHub 点个⭐️Star
+## 服务器
+阿里云折扣场：<a href="https://www.aliyun.com/minisite/goods?userCode=qqbc2usq">点我进入</a>
+，腾讯云秒杀场：<a href="https://cloud.tencent.com/act/cps/redirect?redirect=2446&cps_key=50f8a4cb23c2e06ea4eb495d47786825&from=console">点我进入</a>
+## 安装
 - 首次使用需要微信登录授权
 - 比分预测功能需要网络连接
 - 部分功能（如分享海报）需要保存图片到相册的权限
